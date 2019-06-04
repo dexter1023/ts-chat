@@ -20,10 +20,12 @@ export class ChatService {
     const chat = await this.ChatModel.findById(id).exec();
     return chat;
   }
+
   async saveChat(body: CreateChatDTO): Promise<Chat> {
     const chat = this.ChatModel(body);
     return await chat.save();
   }
+
   async updateChatName(id: string, name: string): Promise<Chat> {
     const chat = await this.ChatModel.findByIdAndUpdate(id, {
       $set: {
@@ -44,7 +46,6 @@ export class ChatService {
 
   async saveMessageToChat(id: string, message: CreateMessageDTO): Promise<Message> {
     const newMessage = await this.messageService.saveMessage(message);
-    console.log(newMessage);
     await this.ChatModel.findByIdAndUpdate(id,
     {
       $push: {
