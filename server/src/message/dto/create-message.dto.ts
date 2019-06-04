@@ -1,5 +1,5 @@
 export interface CreateMessageDTO {
-  readonly text: string;
+  readonly message: string;
   readonly createdAt: string;
   readonly userId: string;
 }
