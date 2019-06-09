@@ -6,9 +6,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SharedModule } from "./shared/shared.module";
 import { ChatModule } from "./chat/chat.module";
+import { TopbarComponent } from './topbar/topbar.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TopbarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
