@@ -1,14 +1,4 @@
-// import { Component, OnInit } from "@angular/core";
-
-import {
-  Component,
-  OnInit,
-  ViewChildren,
-  ViewChild,
-  AfterViewInit,
-  QueryList,
-  ElementRef
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { Action } from "./shared/model/action.enum";
 import { Event } from "./shared/model/event.enum";
@@ -23,8 +13,29 @@ import { SocketService } from "./shared/services/socket.service";
 })
 export class ChatComponent implements OnInit {
   action = Action;
-  user: User;
-  messages: Message[] = [];
+  user: User = {
+    name: "Default"
+  };
+  mockPawel: User = {
+    name: "Paweł"
+  };
+  mockDamian: User = {
+    name: "Damian"
+  };
+  messages: Message[] = [
+    {
+      author: this.mockPawel,
+      content: "Hello"
+    },
+    {
+      author: this.mockDamian,
+      content: "Hello world!"
+    },
+    {
+      author: this.mockPawel,
+      content: "xDDD"
+    }
+  ];
   messageContent: string = "";
   isConnection: any;
 
@@ -56,19 +67,26 @@ export class ChatComponent implements OnInit {
     if (!message) return;
 
     this.socketService.send({
-      from: this.user,
+      author: this.mockPawel,
+      content: message
+    });
+
+    //TMP póki nie ma połączenia z backendem
+    this.messages.push({
+      author: this.mockPawel,
       content: message
     });
 
     this.messageContent = null;
   }
 
-  public sendNotification(params: any, action: Action): void {
+  // TODO: Wysyłanie "message" do socketa na serwerze
+  /* public sendNotification(params: any, action: Action): void {
     let message: Message;
 
     if (action === Action.JOINED) {
       message = {
-        from: this.user,
+        author: this.user,
         action: action
       };
     } else if (action === Action.RENAME) {
@@ -82,5 +100,5 @@ export class ChatComponent implements OnInit {
     }
 
     this.socketService.send(message);
-  }
+  } */
 }

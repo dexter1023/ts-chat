@@ -6,9 +6,10 @@ import { ChatComponent } from "./chat.component";
 
 import { SocketService } from "./shared/services/socket.service";
 import { MaterialModule } from "../shared/material/material.module";
+import { MessageComponent } from "./message/message.component";
 
 @NgModule({
-  declarations: [ChatComponent],
+  declarations: [ChatComponent, MessageComponent],
   imports: [CommonModule, MaterialModule, FormsModule],
   providers: [SocketService]
 })
