@@ -35,12 +35,6 @@ user.pre('save', function (next) {
   });
 });
 
-user.methods.comparePassword = (password) => {
-  compare(password, this.password, (err, hash: string) => {
-    return !err && hash;
-  });
-};
-
 user.methods.serialize = (user) => {
   const {
     _id,

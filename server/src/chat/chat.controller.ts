@@ -4,6 +4,7 @@ import {
   Post,
   Put,
   Delete,
+  Req,
   Res,
   HttpStatus,
   HttpException,
@@ -19,8 +20,8 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Get()
-  async getChat(@Res() res) {
-    const chats = this.chatService.getAll();
+  async getChat(@Req() req, @Res() res) {
+    const chats = this.chatService.getById(req.user._id);
     res.status(HttpStatus.OK).json(chats);
   }
 

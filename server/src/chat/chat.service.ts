@@ -26,6 +26,15 @@ export class ChatService {
     return await chat.save();
   }
 
+  async getAllForUser(id: string): Promise<Chat[]> {
+    const chat = await this.ChatModel
+      .find({users: id})
+      .populate('users', 'nick')
+      .populate('messages')
+      .exec();
+    return chat;
+  }
+
   async updateChatName(id: string, name: string): Promise<Chat> {
     const chat = await this.ChatModel.findByIdAndUpdate(id, {
       $set: {
