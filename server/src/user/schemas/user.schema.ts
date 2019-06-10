@@ -15,7 +15,7 @@ const user = new Schema({
   },
   isAdmin: Boolean,
   avatar: String,
-})
+});
 
 user.methods.serialize = (user) => {
   const {
@@ -30,6 +30,6 @@ user.methods.serialize = (user) => {
     nick,
     avatar,
   };
-}
+};
 
 export const UserSchema = user;

@@ -29,24 +29,30 @@ export class UserController {
     if (!user) {
       throw new NotFoundException('User is not found!');
     } else {
-      res.status(HttpStatus.OK).json(user)
+      res.status(HttpStatus.OK).json(user);
     }
   }
 
   @Post()
   async saveUser(@Res() res, @Body() user: CreateUserDTO) {
-    const User = this.userService.saveUser(user);
+    const User = await this.userService.saveUser(user);
     res.status(HttpStatus.OK).json(User);
   }
+
   @Put(':id')
-  async updateUser(@Res() res, @Param('id', new ValidateObjectId()) id, body: CreateUserDTO) {
+  async updateUser(
+    @Res() res,
+    @Param('id', new ValidateObjectId()) id,
+    body: CreateUserDTO,
+  ) {
     const User = this.userService.updateUser(id, body);
     if (!User) {
       throw new NotFoundException('User is not found!');
     } else {
-      res.status(HttpStatus.OK).json(User)
+      res.status(HttpStatus.OK).json(User);
     }
   }
+
   @Delete(':id')
   async deleteUser(@Res() res, @Param('id', new ValidateObjectId()) id) {
     const User = this.userService.deleteUser(id);
