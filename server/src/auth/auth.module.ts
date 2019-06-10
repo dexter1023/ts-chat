@@ -1,10 +1,16 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  MiddlewareConsumer,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { JwtService } from './jwt/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
+import { authenticate } from 'passport';
 
 @Module({
   imports: [
@@ -21,4 +27,15 @@ import { AuthController } from './auth.controller';
   providers: [AuthService, JwtService],
   exports: [PassportModule, AuthService],
 })
-export class AuthModule {}
+export class AuthModule {
+  public configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(authenticate('jwt', { session: false }))
+      .forRoutes(
+        { path: '/user/*', method: RequestMethod.ALL },
+        { path: '/user', method: RequestMethod.ALL },
+        { path: '/chat/*', method: RequestMethod.ALL },
+        { path: '/chat', method: RequestMethod.ALL },
+      );
+  }
+}

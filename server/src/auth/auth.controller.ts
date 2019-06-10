@@ -10,25 +10,33 @@ export class AuthController {
 
   @Post('login')
   async createToken(@Body() body: AuthPayload, @Res() res) {
-    console.log(body);
     if (!body.password || !body.email) {
-      res.status(HttpStatus.FORBIDDEN).json({ message: 'Email and password are required!' });
+      return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email and password are required!' });
     } else {
-      const validateUser = await this.authService.validateUser(body);
-      if (validateUser) {
-        res.json(this.authService.createToken(body.email));
+      const user = await this.userService.getUserByEmail(body.email);
+      if (!user) {
+        return res.status(HttpStatus.FORBIDDEN).json({error: 'Bad credentials'});
+      } else if (this.authService.compareHash(body.password, user.password)) {
+        const {
+          email,
+          _id,
+          isAdmin,
+        } = user;
+        const token = await this.authService.createToken({email, _id, isAdmin});
+        return res.json(token);
       } else {
-        return res.status(HttpStatus.FORBIDDEN);
+        return res.status(HttpStatus.FORBIDDEN).json({error: 'Bad credentials'});
       }
     }
   }
+
   @Post('register')
   async register(@Body() body: User, @Res() res) {
-    if(!(body.email && body.password && body.nick)) {
+    if (!(body.email && body.password && body.nick)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Username and password are required!' });
     } else {
       const user = await this.userService.getUserByEmail(body.email);
-      if(user) {
+      if (user) {
         return res.status(HttpStatus.FORBIDDEN).json({ message: 'There is user with that credentials' });
       } else {
         const registerUser = await this.userService.saveUser(body);
