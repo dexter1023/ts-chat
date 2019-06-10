@@ -15,8 +15,13 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<User> {
-    let user = this.UserModel.findById(id).exec()
-    user = user.schema.methods.serialize(user)
+    let user = this.UserModel.findById(id).exec();
+    user = user.schema.methods.serialize(user);
+    return user;
+  }
+  
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.UserModel.findOne({email}).exec();
     return user;
   }
 
@@ -27,7 +32,7 @@ export class UserService {
 
   async updateUser(id: string, body: CreateUserDTO): Promise<User> {
     const res = this.UserModel
-      .findByIdAndUpdate(id, body, {new: true})
+      .findByIdAndUpdate(id, body, {new: true});
     return res;
   }
   async deleteUser(id: string): Promise<any> {

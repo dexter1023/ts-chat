@@ -28,6 +28,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async onMessage(client: any, body: any) {
     const event: string = 'message';
     await this.chatService.saveMessageToChat(body.id, body.message);
-    client.emit(event, body.message, (b) => console.log(b));
+    client.emit(event, body.message);
   }
 }
