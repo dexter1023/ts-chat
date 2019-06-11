@@ -1,5 +1,6 @@
 <mat-toolbar color="primary">
-  <span>Cześć nazwa_usera!</span>
+  <span>TSChat</span>
+  <span class="welcome" *ngIf="currentUser">Cześć {{ currentUser.name }}!</span>
   <button
     mat-icon-button
     color="primary"
@@ -10,26 +11,33 @@
 
   <span class="spacer"></span>
 
-  <button mat-flat-button [matMenuTriggerFor]="menu" color="warn">
-    <mat-icon class="icon-space">build</mat-icon>
-    Menu admina
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon class="icon-space">library_books</mat-icon>
-      Kanały
+  <ng-container *ngIf="currentUser">
+    <button
+      mat-flat-button
+      [matMenuTriggerFor]="menu"
+      color="warn"
+      *ngIf="currentUser.role === 'Admin'"
+    >
+      <mat-icon class="icon-space">build</mat-icon>
+      Menu admina
     </button>
-    <button mat-menu-item>
-      <mat-icon class="icon-space">group</mat-icon>
-      Użytkownicy
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon class="icon-space">library_books</mat-icon>
+        Kanały
+      </button>
+      <button mat-menu-item>
+        <mat-icon class="icon-space">group</mat-icon>
+        Użytkownicy
+      </button>
+    </mat-menu>
+    <button mat-button (click)="openAccountSettingsModal()">
+      <mat-icon class="icon-space">settings</mat-icon>
+      Ustawienia konta
     </button>
-  </mat-menu>
-  <button mat-button (click)="openAccountSettingsModal()">
-    <mat-icon class="icon-space">settings</mat-icon>
-    Ustawienia konta
-  </button>
-  <button mat-button>
-    <mat-icon class="icon-space">exit_to_app</mat-icon>
-    Wyloguj
-  </button>
+    <button mat-button (click)="logout()">
+      <mat-icon class="icon-space">exit_to_app</mat-icon>
+      Wyloguj
+    </button>
+  </ng-container>
 </mat-toolbar>
