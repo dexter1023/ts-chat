@@ -1,0 +1,17 @@
+.message {
+  margin: 10px 0;
+  padding: 7px 10px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(239, 239, 239);
+  border-radius: 3px;
+  .author {
+    font-weight: bold;
+    display: block;
+  }
+  .content {
+    word-wrap: break-word;
+    max-width: 900px;
+  }
+}

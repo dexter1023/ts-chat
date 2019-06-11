@@ -1,0 +1,32 @@
+.chat-container {
+  display: flex;
+  height: calc(100vh - 65px);
+
+  .mat-card {
+    margin: 10px;
+    flex: 1;
+  }
+
+  .chat-content-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+  }
+
+  .chat-messages {
+    height: 100%;
+    margin: 0;
+    overflow-y: auto;
+  }
+
+  .chat-input {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 15px;
+    width: 96%;
+  }
+
+  .mat-card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
