@@ -1,6 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
 import { FormControl, Validators } from "@angular/forms";
+import { User } from "src/app/_models/user";
+import { AuthenticationService } from "src/app/_services/authentication.service";
 
 @Component({
   selector: "app-account-settings",
@@ -10,11 +12,7 @@ import { FormControl, Validators } from "@angular/forms";
 export class AccountSettingsComponent implements OnInit {
   showPassword: Boolean = false;
 
-  user = {
-    name: "",
-    password: "",
-    email: ""
-  };
+  user: User;
 
   nameFormControl = new FormControl("", [Validators.required]);
   passwordFormControl = new FormControl("", [Validators.required]);
@@ -23,11 +21,21 @@ export class AccountSettingsComponent implements OnInit {
     Validators.email
   ]);
 
-  constructor(public dialogRef: MatDialogRef<AccountSettingsComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<AccountSettingsComponent>,
+    private authenticationService: AuthenticationService,
+    private cd: ChangeDetectorRef
+  ) {
+    this.authenticationService.currentUser.subscribe(x => (this.user = x));
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
 }

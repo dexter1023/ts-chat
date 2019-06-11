@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 
 import { ChatComponent } from "./chat.component";
 
-import { SocketService } from "./shared/services/socket.service";
+import { SocketService } from "../_services/socket.service";
 import { MaterialModule } from "../shared/material/material.module";
 import { MessageComponent } from "./message/message.component";
 

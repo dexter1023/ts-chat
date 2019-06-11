@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-// import { Observer } from "rxjs/Observer";
-import { Message } from "../model/message";
-import { Event } from "../model/event.enum";
+import { Event } from "../chat/shared/model/event.enum";
 
 import * as socketIo from "socket.io-client";
-// import { Observable, Observable } from 'rxjs';
+import { Message } from "../_models/message";
 
-const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = "http://localhost:4000";
 
 @Injectable({
   providedIn: "root"

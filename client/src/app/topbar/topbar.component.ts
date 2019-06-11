@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 
 import { MatDialog } from "@angular/material";
 import { AccountSettingsComponent } from "../modals/account-settings/account-settings.component";
+import { AuthenticationService } from "../_services/authentication.service";
+import { User } from "../_models/user";
 
 @Component({
   selector: "app-topbar",
@@ -9,7 +11,16 @@ import { AccountSettingsComponent } from "../modals/account-settings/account-set
   styleUrls: ["./topbar.component.scss"]
 })
 export class TopbarComponent implements OnInit {
-  constructor(public modal: MatDialog) {}
+  currentUser: User;
+
+  constructor(
+    public modal: MatDialog,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe(
+      x => (this.currentUser = x)
+    );
+  }
 
   openModal(name): void {
     this.modal.open(name);
@@ -17,6 +28,10 @@ export class TopbarComponent implements OnInit {
 
   openAccountSettingsModal(): void {
     this.openModal(AccountSettingsComponent);
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 
   ngOnInit() {}

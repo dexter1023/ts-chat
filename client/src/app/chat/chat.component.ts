@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 
 import { Action } from "./shared/model/action.enum";
 import { Event } from "./shared/model/event.enum";
-import { Message } from "./shared/model/message";
-import { User } from "./shared/model/user";
-import { SocketService } from "./shared/services/socket.service";
+import { SocketService } from "../_services/socket.service";
+import { User } from "../_models/user";
+import { Message } from "../_models/message";
 
 @Component({
   selector: "app-chat",
