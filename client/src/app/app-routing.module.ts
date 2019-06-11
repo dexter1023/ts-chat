@@ -1,18 +1,23 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+
 import { ChatComponent } from "./chat/chat.component";
+import { LoginComponent } from "./login/login.component";
+import { AuthGuard } from "./_guards/auth.guard";
+import { Role } from "./_models/role";
 
 const routes: Routes = [
   {
-    // TMP redirect
     path: "",
-    redirectTo: "/chat",
-    pathMatch: "full"
+    component: ChatComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin, Role.User, Role.Moderator] }
   },
   {
-    path: "chat",
-    component: ChatComponent
-  }
+    path: "login",
+    component: LoginComponent
+  },
+  { path: "**", redirectTo: "" }
 ];
 
 @NgModule({
