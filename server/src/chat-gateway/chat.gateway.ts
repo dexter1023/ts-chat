@@ -33,14 +33,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           'Unauthorized',
         );
       } else {
-        socket.emit('connected', {message: 'Connected to chat! :)'});
+        const chats = await this.chatService.getAllForUser(user._id);
+        socket.emit('connected', chats);
       }
     }
   }
 
   @SubscribeMessage('join')
   async joinTo(socket, data) {
-    socket.join(data.chatId);
+    data.chatId.forEach(chatId => {
+      socket.join(chatId);
+      socket.emit('join', {message: 'success'});
+    });
   }
 
   handleDisconnect(socket) {
@@ -50,7 +54,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('message')
   async onMessage(socket: any, body: any) {
     const event: string = 'message';
-    await this.chatService.saveMessageToChat(body.id, body.message);
-    socket.broadcast.to(body.chat).emit(event, body.message);
+    const message = await this.chatService.saveMessageToChat(body.id, body.message);
+    this.server.in(body.id).emit(event, message);
   }
 }

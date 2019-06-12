@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Chat } from './interfaces/chat.interface';
 import { MessageService } from '../message/message.service';
@@ -27,12 +27,19 @@ export class ChatService {
   }
 
   async getAllForUser(id: string): Promise<Chat[]> {
-    const chat = await this.ChatModel
-      .find({users: id})
-      .populate('users', 'nick')
-      .populate('messages')
-      .exec();
-    return chat;
+    try {
+      const chat = await this.ChatModel
+        .find({users: Types.ObjectId(id)})
+        .populate('users', 'nick')
+        .populate('messages')
+        .exec();
+      return chat;
+    } catch (e) {
+      throw new HttpException(
+        'Cannot find chats',
+        HttpStatus.NOT_FOUND,
+        );
+    }
   }
 
   async updateChatName(id: string, name: string): Promise<Chat> {
