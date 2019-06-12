@@ -3,11 +3,9 @@ import {
   Get,
   Post,
   Put,
-  Delete,
   Req,
   Res,
   HttpStatus,
-  HttpException,
   Body,
   Param,
 } from '@nestjs/common';
@@ -21,7 +19,7 @@ export class ChatController {
 
   @Get()
   async getChat(@Req() req, @Res() res) {
-    const chats = this.chatService.getById(req.user._id);
+    const chats = await this.chatService.getAllForUser(req.user._id);
     res.status(HttpStatus.OK).json(chats);
   }
 

@@ -14,7 +14,7 @@ export class AuthService {
     const expiresIn = 6000 * 60;
     const secretOrKey = 'asfgshdsffDasdcaD';
     const token = jwt.sign(payload, secretOrKey);
-    return { expires_in: expiresIn, token };
+    return { expires_in: expiresIn, token, id: payload._id };
   }
 
   async validateToken(token: string, isWs: boolean = false): Promise<User | null> {
