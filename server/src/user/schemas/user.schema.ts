@@ -42,13 +42,13 @@ user.methods.serialize = (user) => {
     _id,
     email,
     nick,
-    avatar,
+    isAdmin,
   } = user;
   return {
     _id,
     email,
     nick,
-    avatar,
+    isAdmin,
   };
 };
 
