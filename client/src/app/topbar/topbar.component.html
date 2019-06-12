@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+  <span>TSChat</span>
+  <span class="welcome" *ngIf="currentUser">Cześć {{ currentUser.name }}!</span>
+  <button
+    mat-icon-button
+    color="primary"
+    aria-label="Example icon-button with a heart icon"
+  >
+    <mat-icon>favorite</mat-icon>
+  </button>
+
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="currentUser">
+    <button
+      mat-flat-button
+      [matMenuTriggerFor]="menu"
+      color="warn"
+      *ngIf="currentUser.role === 'Admin'"
+    >
+      <mat-icon class="icon-space">build</mat-icon>
+      Menu admina
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon class="icon-space">library_books</mat-icon>
+        Kanały
+      </button>
+      <button mat-menu-item>
+        <mat-icon class="icon-space">group</mat-icon>
+        Użytkownicy
+      </button>
+    </mat-menu>
+    <button mat-button (click)="openAccountSettingsModal()">
+      <mat-icon class="icon-space">settings</mat-icon>
+      Ustawienia konta
+    </button>
+    <button mat-button (click)="logout()">
+      <mat-icon class="icon-space">exit_to_app</mat-icon>
+      Wyloguj
+    </button>
+  </ng-container>
+</mat-toolbar>

@@ -1,0 +1,134 @@
+<div>
+  <mat-card class="login-card">
+    <mat-card-content>
+      <mat-tab-group mat-align-tabs="center" #tabs>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">person</mat-icon>
+            Zaloguj
+          </ng-template>
+          <form class="login-form">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Login"
+                type="text"
+                [(ngModel)]="login.name"
+                [formControl]="loginNameFC"
+              />
+              <mat-error *ngIf="loginNameFC.hasError('required')">
+                Login jest <strong>wymagany</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Hasło"
+                type="password"
+                [(ngModel)]="login.password"
+                [formControl]="loginPasswordFC"
+              />
+              <mat-error *ngIf="loginPasswordFC.hasError('required')">
+                Hasło jest <strong>wymagane</strong>
+              </mat-error>
+            </mat-form-field>
+            <div class="form-group" align="center">
+              <button
+                mat-flat-button
+                color="accent"
+                [disabled]="
+                  loading ||
+                  loginNameFC.hasError('required') ||
+                  loginPasswordFC.hasError('required')
+                "
+                (click)="onLogin()"
+              >
+                Zaloguj
+              </button>
+              <img
+                *ngIf="loading"
+                class="pl-2"
+                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+              />
+            </div>
+          </form>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">person_add</mat-icon>
+            Zarejestruj
+          </ng-template>
+          <form class="register-form">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Login"
+                type="text"
+                [(ngModel)]="register.name"
+                [formControl]="registerNameFC"
+              />
+              <mat-error *ngIf="registerNameFC.hasError('required')">
+                Login jest <strong>wymagany</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Email"
+                type="text"
+                [(ngModel)]="register.email"
+                [formControl]="registerEmailFC"
+              />
+              <mat-error
+                *ngIf="
+                  registerEmailFC.hasError('email') &&
+                  !registerEmailFC.hasError('required')
+                "
+              >
+                Email jest niepoprawny
+              </mat-error>
+              <mat-error *ngIf="registerEmailFC.hasError('required')">
+                Email jest <strong>wymagany</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Hasło"
+                type="password"
+                [(ngModel)]="register.password"
+                [formControl]="registerPasswordFC"
+              />
+              <mat-error *ngIf="registerPasswordFC.hasError('required')">
+                Hasło jest <strong>wymagane</strong>
+              </mat-error>
+            </mat-form-field>
+            <div class="form-group" align="center">
+              <button
+                mat-flat-button
+                color="accent"
+                [disabled]="
+                  loading ||
+                  registerNameFC.hasError('required') ||
+                  registerPasswordFC.hasError('required') ||
+                  registerEmailFC.hasError('email') ||
+                  registerEmailFC.hasError('required')
+                "
+                (click)="onRegister()"
+              >
+                Zarejestruj
+              </button>
+              <img
+                *ngIf="loading"
+                class="pl-2"
+                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+              />
+            </div>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions> </mat-card-actions>
+  </mat-card>
+</div>
