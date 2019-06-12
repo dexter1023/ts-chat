@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './interfaces/user.interface';
@@ -25,14 +25,16 @@ export class UserService {
     return user;
   }
 
-  async saveUser(body: CreateUserDTO): Promise<User> {
+  async saveUser(body: CreateUserDTO, isAdmin: boolean = true): Promise<User> {
+    body.isAdmin = isAdmin;
     const user = this.UserModel(body);
     return await user.save();
   }
 
   async updateUser(id: string, body: CreateUserDTO): Promise<User> {
-    const res = await this.UserModel
+    let res = await this.UserModel
       .findByIdAndUpdate(id, body, {new: true});
+    res = res.schema.methods.serialize(res);
     return res;
   }
   async deleteUser(id: string): Promise<any> {

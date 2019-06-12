@@ -16,7 +16,7 @@ export class AuthController {
       const user = await this.userService.getUserByEmail(body.email);
       if (!user) {
         return res.status(HttpStatus.FORBIDDEN).json({error: 'Bad credentials'});
-      } else if (this.authService.compareHash(body.password, user.password)) {
+      } else if (await this.authService.compareHash(body.password, user.password)) {
         const {
           email,
           _id,
@@ -39,11 +39,11 @@ export class AuthController {
       if (user) {
         return res.status(HttpStatus.FORBIDDEN).json({ message: 'There is user with that credentials' });
       } else {
-        const registerUser = await this.userService.saveUser(body);
+        const registerUser = await this.userService.saveUser(body, false);
         if (registerUser) {
-          return res.status(HttpStatus.OK);
+          return res.status(HttpStatus.OK).json({message: 'Correct registry'});
         } else {
-          return res.status(HttpStatus.FORBIDDEN);
+          return res.status(HttpStatus.FORBIDDEN).json({message: 'Error during register user, try again'});
         }
       }
     }
