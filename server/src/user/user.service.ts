@@ -9,14 +9,19 @@ export class UserService {
   constructor(@InjectModel('User') private readonly UserModel: Model<User>) {}
 
   async getAllUsers(): Promise<User[]> {
-    let users = this.UserModel.find({}).exec()
-    users = users.map(user => users.schema.methods.serialize(user));
+    let users = await this.UserModel.find({}).exec();
+    users = users.map(user => user.schema.methods.serialize(user));
     return users;
   }
 
   async getUserById(id: string): Promise<User> {
-    let user = this.UserModel.findById(id).exec()
-    user = user.schema.methods.serialize(user)
+    let user = await this.UserModel.findById(id).exec();
+    user = user.schema.methods.serialize(user);
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.UserModel.findOne({email}).exec();
     return user;
   }
 
@@ -26,12 +31,12 @@ export class UserService {
   }
 
   async updateUser(id: string, body: CreateUserDTO): Promise<User> {
-    const res = this.UserModel
-      .findByIdAndUpdate(id, body, {new: true})
+    const res = await this.UserModel
+      .findByIdAndUpdate(id, body, {new: true});
     return res;
   }
   async deleteUser(id: string): Promise<any> {
-    const res = this.UserModel
+    const res = await this.UserModel
       .findByIdAndDelete(id);
     return res;
   }

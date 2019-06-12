@@ -1,4 +1,6 @@
 import { Schema } from 'mongoose';
+import { genSalt, hash, compare } from 'bcrypt';
+const SALT_WORK_FACTOR = 10;
 
 const user = new Schema({
   nick: {
@@ -15,6 +17,22 @@ const user = new Schema({
   },
   isAdmin: Boolean,
   avatar: String,
+});
+
+user.pre('save', function (next) {
+  let user = this;
+  genSalt(SALT_WORK_FACTOR, (err, salt) => {
+    if (err) {
+      return next(err);
+    }
+    hash(user.password, salt, (error, hash: string) => {
+      if (error) {
+        return next(error);
+      }
+      user.password = hash;
+      next();
+    });
+  });
 });
 
 user.methods.serialize = (user) => {
