@@ -8,10 +8,18 @@
   border-radius: 3px;
   .author {
     font-weight: bold;
-    display: block;
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
   }
   .content {
-    word-wrap: break-word;
-    max-width: 900px;
+    word-break: break-all;
+  }
+  max-width: max-content;
+  &.user-message {
+    background: #3f51b5;
+    margin-left: auto;
+    color: white;
+    margin-right: 10px;
   }
 }

@@ -11,7 +11,7 @@ const routes: Routes = [
     path: "",
     component: ChatComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Admin, Role.User, Role.Moderator] }
+    data: { roles: [Role.Admin, Role.User] }
   },
   {
     path: "login",

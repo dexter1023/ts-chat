@@ -6,6 +6,8 @@ import { Router } from "@angular/router";
 
 import { User } from "../_models/user";
 import { SnackBarService } from "./snack-bar.service";
+import * as jwt_decode from "jwt-decode";
+import { Role } from "../_models/role";
 
 @Injectable({
   providedIn: "root"
@@ -29,16 +31,23 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string) {
+  login(email: string, password: string) {
     return this.http
-      .post<any>(`/users/authenticate`, { username, password })
+      .post<any>(`http://localhost:3000/auth/login`, { email, password })
       .pipe(
         map(user => {
-          // login successful if there's a jwt token in the response
           if (user && user.token) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem("currentUser", JSON.stringify(user));
-            this.currentUserSubject.next(user);
+            const decodedToken = this.getDecodedAccessToken(user.token);
+            const userToSave = {
+              id: decodedToken._id,
+              name: decodedToken.nick,
+              email: decodedToken.email,
+              role: decodedToken.isAdmin ? Role.Admin : Role.User,
+              token: user.token
+            };
+
+            localStorage.setItem("currentUser", JSON.stringify(userToSave));
+            this.currentUserSubject.next(userToSave);
           }
 
           return user;
@@ -48,15 +57,26 @@ export class AuthenticationService {
 
   register(nick: string, email: string, password: string) {
     return this.http
-      .post<any>("http://localhost:3000/user", { nick, email, password })
+      .post<any>("http://localhost:3000/auth/register", {
+        nick,
+        email,
+        password
+      })
       .pipe(map(response => response));
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
     this.router.navigate(["/login"]);
     this.snackBar.log("Wylogowano pomyślnie!");
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 }
