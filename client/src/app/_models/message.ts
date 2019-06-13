@@ -1,5 +1,5 @@
 export class Message {
   _id: String;
-  user: Object;
+  user: any;
   message: String;
 }

@@ -14,4 +14,8 @@ export class UserService {
   getById(id: number) {
     return this.http.get<User>(`/users/${id}`);
   }
+
+  updateUser(nick: String, email: String) {
+    return this.http.put("http://localhost:3000/user", { nick, email });
+  }
 }
