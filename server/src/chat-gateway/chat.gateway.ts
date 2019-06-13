@@ -49,7 +49,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('message')
   async onMessage(socket: any, body: any) {
     const event: string = 'message';
-    const message = await this.service.saveMessage(body.message);
+    const message = await this.service.saveMessage(body);
     this.server.emit(event, message);
   }
 }
