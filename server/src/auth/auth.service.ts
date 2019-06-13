@@ -14,7 +14,7 @@ export class AuthService {
     const expiresIn = 6000 * 60;
     const secretOrKey = 'asfgshdsffDasdcaD';
     const token = jwt.sign(payload, secretOrKey);
-    return { expires_in: expiresIn, token, id: payload._id, isAdmin: payload.isAdmin };
+    return { expires_in: expiresIn, token };
   }
 
   async validateToken(token: string, isWs: boolean = false): Promise<User | null> {
@@ -23,11 +23,11 @@ export class AuthService {
       const user = await this.userService.getUserByEmail(payload.email);
       if (!user) {
         if (isWs) {
-          throw new WsException('Unauthorized access');
+          throw new WsException('Brak dostępu, błędna autoryzacja');
         } else {
           throw new HttpException(
-            'Unauthorized access',
-            HttpStatus.BAD_REQUEST,
+            'Brak dostępu, błędny token',
+            HttpStatus.FORBIDDEN,
           );
         }
       } else {
@@ -35,11 +35,11 @@ export class AuthService {
       }
     } else {
       if (isWs) {
-        throw new WsException('Unauthorized access');
+        throw new WsException('Brak dostępu, brak dostępu, błędny token');
       } else {
         throw new HttpException(
-          'Unauthorized access',
-          HttpStatus.BAD_REQUEST,
+          'Brak dostępu, błędny token',
+          HttpStatus.FORBIDDEN,
         );
       }
     }

@@ -7,54 +7,49 @@ import {
   OnGatewayDisconnect,
   WsException,
 } from '@nestjs/websockets';
-import { User } from '../user/interfaces/user.interface';
 import { Server } from 'socket.io';
-import { ChatService } from '../chat/chat.service';
-import { AuthService } from 'src/auth/auth.service';
+import { FasadeService } from 'src/common/fasade/fasade.service';
+import { CreateChatDTO } from 'src/chat/dto/create-chat.dto';
 
 @WebSocketGateway(4000, {namespace: 'rooms'})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly chatService: ChatService, private readonly authService: AuthService) {}
+  constructor(private readonly service: FasadeService) {}
 
   @WebSocketServer()
   server: Server;
 
-  private connectedUsers: string[] = [];
-
   async handleConnection(socket) {
     if (!socket.handshake.query.token) {
       throw new WsException(
-        'Unauthorized',
+        'Brak autoryzacji',
       );
     } else {
-      const user = await this.authService.validateToken(socket.handshake.query.token);
+      const user = await this.service.validateToken(socket.handshake.query.token, true);
       if (!user) {
         throw new WsException(
-          'Unauthorized',
+          'Brak autoryzacji',
         );
       } else {
-        const chats = await this.chatService.getAllForUser(user._id);
-        socket.emit('connected', chats);
+        const users = await this.service.getUsers();
+        const messages = await this.service.getMessages();
+        const chat = {
+          name: 'General',
+          users,
+          messages,
+        };
+        socket.emit('connected', chat);
       }
     }
   }
 
-  @SubscribeMessage('join')
-  async joinTo(socket, data) {
-    data.chatId.forEach(chatId => {
-      socket.join(chatId);
-      socket.emit('join', {message: 'success'});
-    });
-  }
-
   handleDisconnect(socket) {
-    socket.emit('disconnect', 'he');
+    socket.emit('disconnect', 'Rozłączono z czatek');
   }
 
   @SubscribeMessage('message')
   async onMessage(socket: any, body: any) {
     const event: string = 'message';
-    const message = await this.chatService.saveMessageToChat(body.id, body.message);
-    this.server.in(body.id).emit(event, message);
+    const message = await this.service.saveMessage(body);
+    this.server.emit(event, message);
   }
 }
