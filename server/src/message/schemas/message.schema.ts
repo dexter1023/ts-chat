@@ -11,3 +11,9 @@ export const MessageSchema = new mongoose.Schema({
   },
   createdAt: Date,
 });
+
+MessageSchema.pre('save', function(next) {
+  let message = this;
+  message.createAt = new Date(Date.now()).toISOString();
+  next();
+});

@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { ValidateObjectId } from '../shared/pipes/validate-object-id.pipes';
 
 @Controller('user')
 export class UserController {
@@ -23,23 +22,23 @@ export class UserController {
   async updateUser(
     @Req() req,
     @Res() res,
-    body: CreateUserDTO,
+    @Body() body: CreateUserDTO,
   ) {
-    const User = this.userService.updateUser(req.user._id, body);
+    const User = await this.userService.updateUser(req.user._id, body);
     if (!User) {
-      throw new NotFoundException('User is not found!');
+      throw new NotFoundException('Nie znalazłem użytkownika');
     } else {
       res.status(HttpStatus.OK).json(User);
     }
   }
 
   @Delete()
-  async deleteUser(@Req() req, @Res() res, @Param('id', new ValidateObjectId()) id) {
-    const User = this.userService.deleteUser(req.user._id);
+  async deleteUser(@Req() req, @Res() res) {
+    const User = await this.userService.deleteUser(req.user._id);
     if (!User) {
-      throw new NotFoundException('User is not found!');
+      throw new NotFoundException('Nie ma takiego użytkownika');
     } else {
-      res.status(HttpStatus.OK);
+      res.status(HttpStatus.OK).json({message: 'Użytkownik został usunięty'});
     }
   }
 }

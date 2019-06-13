@@ -26,4 +26,9 @@ export class MessageService {
       .exec();
     return messages;
   }
+  async deleteMessage(id: string): Promise<any> {
+    const res = await this.MessageModel
+      .findByIdAndDelete(id);
+    return res;
+  }
 }
