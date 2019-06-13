@@ -1,4 +1,10 @@
-<div class="message">
-  <div class="author">{{ message.author.name }}</div>
-  <span class="content">{{ message.content }}</span>
+<div
+  class="message"
+  [ngClass]="{ 'user-message': message.user._id === currentUser.id }"
+>
+  <div class="author">
+    {{ message.user.isAdmin }}
+    {{ message.user.nick }}
+  </div>
+  <span class="content">{{ message.message }}</span>
 </div>

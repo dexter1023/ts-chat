@@ -13,10 +13,10 @@
                 matInput
                 placeholder="Login"
                 type="text"
-                [(ngModel)]="login.name"
-                [formControl]="loginNameFC"
+                [(ngModel)]="login.email"
+                [formControl]="loginEmailFC"
               />
-              <mat-error *ngIf="loginNameFC.hasError('required')">
+              <mat-error *ngIf="loginEmailFC.hasError('required')">
                 Login jest <strong>wymagany</strong>
               </mat-error>
             </mat-form-field>
@@ -38,7 +38,7 @@
                 color="accent"
                 [disabled]="
                   loading ||
-                  loginNameFC.hasError('required') ||
+                  loginEmailFC.hasError('required') ||
                   loginPasswordFC.hasError('required')
                 "
                 (click)="onLogin()"

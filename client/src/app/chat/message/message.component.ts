@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Message } from "../../_models/message";
+import { User } from "src/app/_models/user";
+import { AuthenticationService } from "src/app/_services/authentication.service";
 
 @Component({
   selector: "app-message",
@@ -8,6 +10,13 @@ import { Message } from "../../_models/message";
 })
 export class MessageComponent implements OnInit {
   @Input() message: Message;
+  currentUser: User;
+
+  constructor(private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(
+      x => (this.currentUser = x)
+    );
+  }
 
   ngOnInit() {}
 

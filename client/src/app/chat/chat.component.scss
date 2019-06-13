@@ -3,8 +3,11 @@
   height: calc(100vh - 65px);
 
   .mat-card {
-    margin: 10px;
+    margin: 20px;
     flex: 1;
+    &:last-child {
+      margin-left: 0;
+    }
   }
 
   .chat-content-container {
@@ -29,4 +32,48 @@
   .mat-card-footer {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-Header {
+  font-size: 20px;
+  display: flex;
+  margin-bottom: 16px;
+  span {
+    margin-left: 5px;
+  }
+}
+
+.users {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #efefef;
+  border-radius: 3px;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  span {
+    font-weight: normal;
+    &:first-child {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.star {
+  color: #ceaa00;
+  font-size: 18px;
+  height: auto;
+  cursor: default;
 }
