@@ -9,3 +9,32 @@ mat-form-field {
 button:not(:last-child) {
   margin-right: 10px;
 }
+
+.warning-alert {
+  padding: 10px;
+  font-family: "Calibri";
+  border: 1px solid orange;
+  color: orange;
+  border-radius: 5px;
+  margin: 15px 0 10px 0;
+  font-size: 20px;
+
+  .header,
+  .content {
+    margin: 0;
+  }
+
+  .header {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    .mat-icon {
+      margin-right: 7px;
+    }
+  }
+
+  .content {
+    font-size: 18px;
+  }
+}

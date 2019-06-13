@@ -27,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if ([401, 403].indexOf(err.status) !== -1) {
           this.authenticationService.logout();
 
-          if (this.router.url !== "/login") {
+          if (!/login/.exec(this.router.url)) {
             location.reload(true);
           }
         }
