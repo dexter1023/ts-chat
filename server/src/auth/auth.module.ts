@@ -36,6 +36,8 @@ export class AuthModule {
         { path: '/user', method: RequestMethod.ALL },
         { path: '/chat/*', method: RequestMethod.ALL },
         { path: '/chat', method: RequestMethod.ALL },
+        { path: '/message', method: RequestMethod.ALL },
+        { path: '/message/*', method: RequestMethod.ALL },
       );
   }
 }

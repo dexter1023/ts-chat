@@ -17,8 +17,14 @@ export class FasadeService {
   async getMessages(): Promise<Message[]> {
     return await this.messageService.getMessages();
   }
+  async getMessage(id: string) {
+    return await this.messageService.getMessage(id);
+  }
   async saveMessage(message: CreateMessageDTO): Promise<Message> {
     return await this.messageService.saveMessage(message);
+  }
+  async deleteMessage(id: string): Promise<any> {
+    return await this.messageService.deleteMessage(id);
   }
   async getUsers(): Promise<User[]> {
     return await this.userService.getAllUsers();

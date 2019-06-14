@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const MessageSchema = new mongoose.Schema({
+const message = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -12,8 +12,9 @@ export const MessageSchema = new mongoose.Schema({
   createdAt: Date,
 });
 
-MessageSchema.pre('save', function(next) {
-  let message = this;
-  message.createAt = new Date(Date.now()).toISOString();
+message.pre('save', function(next) {
+  this.createdAt = new Date(Date.now()).toISOString();
   next();
 });
+
+export const MessageSchema = message;

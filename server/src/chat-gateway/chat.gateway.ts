@@ -9,7 +9,6 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { FasadeService } from 'src/common/fasade/fasade.service';
-import { CreateChatDTO } from 'src/chat/dto/create-chat.dto';
 
 @WebSocketGateway(4000, {namespace: 'rooms'})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -30,6 +29,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           'Brak autoryzacji',
         );
       } else {
+        socket.user = user;
         const users = await this.service.getUsers();
         const messages = await this.service.getMessages();
         const chat = {
@@ -51,5 +51,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const event: string = 'message';
     const message = await this.service.saveMessage(body);
     this.server.emit(event, message);
+  }
+
+  @SubscribeMessage('deleteMessage')
+  async onDeleteMessage(socket: any, body: any) {
+    const message = await this.service.getMessage(body.messageId);
+    if (socket.user && (socket.user.isAdmin || socket.user._id.toString() === message.user._id.toString())) {
+      await this.service.deleteMessage(body.messageId);
+      this.server.emit('deleteMessage', {messageId: message._id});
+    } else {
+      throw new WsException(
+        'Brak uprawnień do usunięcia wiadomości',
+      );
+    }
   }
 }
