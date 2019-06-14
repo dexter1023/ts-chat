@@ -8,6 +8,7 @@ Użyte technologie:
 * [MongoDB](https://www.mongodb.com/)
 * [Angular 7](https://angular.io/)
 * [Angular Material v7](https://v7.material.angular.io/)
+* [Socket.io](https://socket.io/)
 
 ## Getting Started
 
