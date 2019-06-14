@@ -5,6 +5,9 @@
   <div class="author">
     {{ message.user.isAdmin }}
     {{ message.user.nick }}
+    <span class="time">{{
+      message.createdAt | date: "H:mm:ss dd.MM.yyyy"
+    }}</span>
   </div>
   <span class="content">{{ message.message }}</span>
 </div>
