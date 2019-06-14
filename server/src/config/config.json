@@ -1,0 +1,13 @@
+{
+  "secretKey": "azspeljantsejavaj",
+  "production": {
+    "db": {
+      "url": "mongodb+srv://ts_chat:g40kDnO2j9F4Z7XZ@mongodb-kbyg3.mongodb.net/test?retryWrites=true&w=majority"
+    }
+  },
+  "development": {
+    "db": {
+      "url": "mongodb://localhost:27017/ts-chat"
+    }
+  }
+}

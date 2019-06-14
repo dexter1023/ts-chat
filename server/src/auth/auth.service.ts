@@ -5,6 +5,7 @@ import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { WsException } from '@nestjs/websockets';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import * as config from '../config/config.json';
 
 @Injectable()
 export class AuthService {
@@ -12,13 +13,13 @@ export class AuthService {
 
   async createToken(payload: JwtPayload) {
     const expiresIn = 6000 * 60;
-    const secretOrKey = 'asfgshdsffDasdcaD';
+    const secretOrKey = config.secretKey;
     const token = jwt.sign(payload, secretOrKey);
     return { expires_in: expiresIn, token };
   }
 
   async validateToken(token: string, isWs: boolean = false): Promise<User | null> {
-    const payload = jwt.verify(token, 'asfgshdsffDasdcaD') as any;
+    const payload = jwt.verify(token, config.secretKey) as any;
     if (payload) {
       const user = await this.userService.getUserByEmail(payload.email);
       if (!user) {
