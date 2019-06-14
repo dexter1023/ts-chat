@@ -1,20 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as express from 'express';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const options = new DocumentBuilder()
-    .setTitle('TS Chat')
-    .setDescription('TS Chat - dokumentacjaREST API i WS.')
-    .setVersion('1.0')
-    .addTag('auth')
-    .addTag('chat')
-    .addTag('ws')
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  app.use('/', express.static(join(__dirname, '../../client/dist/client')));
   app.enableCors();
   await app.listen(3000);
 }

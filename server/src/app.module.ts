@@ -7,10 +7,11 @@ import { MessageModule } from './message/message.module';
 import { ChatGatewayModule } from './chat-gateway/chat.gateway.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import * as config from './config/config.json';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/chat'),
+    MongooseModule.forRoot(config[process.env.NODE_ENV].db.url),
     ChatModule,
     MessageModule,
     ChatGatewayModule,

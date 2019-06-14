@@ -1,4 +1,27 @@
-<div class="message">
-  <div class="author">{{ message.author.name }}</div>
-  <span class="content">{{ message.content }}</span>
+<div
+  class="message-container"
+  [ngClass]="{ 'user-message': message.user._id === currentUser.id }"
+>
+  <div class="message">
+    <div class="author">
+      {{ message.user.isAdmin }}
+      {{ message.user.nick }}
+      <span class="time">{{
+        message.createdAt | date: "H:mm:ss dd.MM.yyyy"
+      }}</span>
+    </div>
+
+    <span class="content"> {{ count }}{{ message.message }}</span>
+  </div>
+  <mat-icon
+    class="delete-message-button"
+    matTooltip="Usuń wiadomość"
+    matTooltipPosition="{{
+      message.user._id === currentUser.id ? 'left' : 'right'
+    }}"
+    *ngIf="message.user._id === currentUser.id || currentUser.role === 'Admin'"
+    (click)="deleteMessage()"
+  >
+    cancel
+  </mat-icon>
 </div>

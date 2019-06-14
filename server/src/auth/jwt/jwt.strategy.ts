@@ -3,13 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserService } from '../../user/user.service';
 import { AuthPayload } from '../interfaces/auth-payload.interface';
+import * as config from '../../config/config.json';
 
 @Injectable()
 export class JwtService extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'asfgshdsffDasdcaD',
+      secretOrKey: config.secretKey,
       passReqToCallback: true,
     },
     async (req, payload, next) => await this.validate(req, payload, next),

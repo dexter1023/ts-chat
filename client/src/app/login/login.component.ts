@@ -15,11 +15,11 @@ export class LoginComponent implements OnInit {
   @ViewChild("tabs") tabGroup: MatTabGroup;
 
   login = {
-    name: "",
+    email: "",
     password: ""
   };
 
-  loginNameFC = new FormControl("", [Validators.required]);
+  loginEmailFC = new FormControl("", [Validators.required]);
   loginPasswordFC = new FormControl("", [Validators.required]);
 
   register = {
@@ -55,14 +55,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // showSnackBar(message: string, action: string) {
-  //   this.snackBar.open(message, action, {
-  //     duration: 3000
-  //   });
-  // }
-
   ngOnInit() {
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
@@ -71,7 +64,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.authenticationService
-      .login(this.login.name, this.login.password)
+      .login(this.login.email, this.login.password)
       .pipe(first())
       .subscribe(
         data => {
@@ -87,7 +80,6 @@ export class LoginComponent implements OnInit {
 
   onRegister() {
     this.submitted = true;
-
     this.loading = true;
     this.authenticationService
       .register(this.register.name, this.register.email, this.register.password)

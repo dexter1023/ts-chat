@@ -7,7 +7,6 @@
           matInput
           placeholder="Nazwa"
           type="text"
-          [(ngModel)]="user.name"
           [formControl]="nameFormControl"
         />
         <mat-error *ngIf="emailFormControl.hasError('required')">
@@ -16,12 +15,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Email"
-          [formControl]="emailFormControl"
-          [(ngModel)]="user.email"
-        />
+        <input matInput placeholder="Email" [formControl]="emailFormControl" />
         <mat-error
           *ngIf="
             emailFormControl.hasError('email') &&
@@ -36,12 +30,11 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field *ngIf="!showPassword">
+    <mat-form-field *ngIf="!showPassword" disabled>
       <input
         matInput
         placeholder="Hasło"
         type="password"
-        [(ngModel)]="user.password"
         [formControl]="passwordFormControl"
       />
       <mat-error *ngIf="emailFormControl.hasError('required')">
@@ -50,29 +43,36 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="showPassword">
-      <input
-        matInput
-        placeholder="Hasło"
-        [(ngModel)]="user.password"
-        [formControl]="passwordFormControl"
-      />
+      <input matInput placeholder="Hasło" [formControl]="passwordFormControl" />
       <mat-error *ngIf="emailFormControl.hasError('required')">
         Hasło jest <strong>wymagane</strong>
       </mat-error>
     </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="showPassword">Pokaż hasło</mat-checkbox>
+    <mat-checkbox [(ngModel)]="showPassword" disabled>Pokaż hasło</mat-checkbox>
   </div>
+
+  <div class="warning-alert">
+    <p class="header">
+      <mat-icon class="example-tab-icon">warning</mat-icon>Ostrzeżenie
+    </p>
+    <p class="content">Po zmianie danych zostaniesz wylogowany!</p>
+  </div>
+
   <div mat-dialog-actions align="end">
     <button mat-button (click)="onNoClick()">Anuluj</button>
     <button
+      (click)="updateUser()"
       mat-flat-button
       color="accent"
       [disabled]="
         emailFormControl.hasError('email') ||
         emailFormControl.hasError('required') ||
         nameFormControl.hasError('required') ||
-        passwordFormControl.hasError('required')
+        !(
+          nameFormControl.value !== currentUser.name ||
+          emailFormControl.value !== currentUser.email
+        )
       "
     >
       Zapisz

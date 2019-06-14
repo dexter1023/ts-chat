@@ -21,8 +21,8 @@ const user = new Schema({
   avatar: String,
 });
 
-user.pre('save', function (next) {
-  let user = this;
+user.pre('save', function(next) {
+  const user = this;
   genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) {
       return next(err);

@@ -1,5 +1,5 @@
-<mat-toolbar color="primary">
-  <span>TSChat</span>
+<mat-toolbar color="primary" class="topbar">
+  <span>TSChat <mat-icon>message</mat-icon></span>
   <span class="welcome" *ngIf="currentUser">Cześć {{ currentUser.name }}!</span>
   <button
     mat-icon-button
@@ -22,13 +22,13 @@
       Menu admina
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon class="icon-space">library_books</mat-icon>
-        Kanały
-      </button>
-      <button mat-menu-item>
+      <button mat-menu-item disabled>
         <mat-icon class="icon-space">group</mat-icon>
         Użytkownicy
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon class="icon-space">library_books</mat-icon>
+        Kanały
       </button>
     </mat-menu>
     <button mat-button (click)="openAccountSettingsModal()">

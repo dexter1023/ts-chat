@@ -1,16 +1,18 @@
 <div class="chat-container">
-  <mat-card>
+  <!-- TODO: Karta z kanałami -->
+  <!-- <mat-card>
     <mat-card-header>
       <mat-card-title>Kanały</mat-card-title>
     </mat-card-header>
-    <mat-card-content> </mat-card-content>
+    <mat-card-content> <button (click)="get()">klik</button></mat-card-content>
     <mat-card-actions> </mat-card-actions>
-  </mat-card>
+  </mat-card> -->
 
   <mat-card class="chat-content-container">
-    <mat-card-header>
-      <mat-card-title>nazwa_czatu</mat-card-title>
-    </mat-card-header>
+    <div class="card-Header">
+      <strong>Czat: </strong>
+      <span>{{ chat && chat.name }}</span>
+    </div>
     <mat-card-content class="chat-messages" id="msgContainer">
       <div class="chat-message" *ngFor="let message of messages">
         <app-message [message]="message"></app-message>
@@ -25,17 +27,32 @@
           [(ngModel)]="messageContent"
           placeholder="Napisz coś..."
           (keyup.enter)="sendMessage(messageContent)"
+          autocomplete="off"
         />
         <mat-hint align="end">{{ inputMessage.value.length }}/140</mat-hint>
       </mat-form-field>
     </mat-card-footer>
   </mat-card>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Aktywni użytkownicy</mat-card-title>
-    </mat-card-header>
-    <mat-card-content> </mat-card-content>
+  <mat-card class="users-container">
+    <div class="card-Header">
+      <strong>Wszyscy użytkownicy</strong>
+    </div>
+    <mat-card-content class="users">
+      <div class="user-item" *ngFor="let user of (chat && chat.users) || []">
+        <span>
+          <mat-icon
+            class="star"
+            *ngIf="user.isAdmin"
+            matTooltip="Admin"
+            matTooltipPosition="above"
+            >star</mat-icon
+          >
+          {{ user.nick }}
+        </span>
+        <span>{{ user.email }}</span>
+      </div>
+    </mat-card-content>
     <mat-card-actions> </mat-card-actions>
   </mat-card>
 </div>

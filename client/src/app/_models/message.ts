@@ -1,6 +1,6 @@
-import { User } from "./user";
-
 export class Message {
-  author: User;
-  content: String;
+  _id: String;
+  user: any;
+  message: String;
+  createdAt: String;
 }
