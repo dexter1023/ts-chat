@@ -38,6 +38,12 @@ export class SocketService {
     });
   }
 
+  public deleteMessage(messageId: String): void {
+    this.socket.emit("deleteMessage", {
+      messageId
+    });
+  }
+
   public onMessage(): Observable<Message> {
     return new Observable<Message>(observer => {
       this.socket.on("message", (data: Message) => {
@@ -49,6 +55,14 @@ export class SocketService {
   public onConnect(): Observable<Chat> {
     return new Observable<Chat>(observer => {
       this.socket.on("connected", (data: any) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  public onDeleteMessage(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on("deleteMessage", (data: any) => {
         observer.next(data);
       });
     });

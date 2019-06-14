@@ -41,6 +41,10 @@ export class ChatComponent implements OnInit {
     this.socketService.onMessage().subscribe(data => {
       this.messages.push(data);
     });
+
+    this.socketService.onDeleteMessage().subscribe(({ messageId }) => {
+      this.messages = this.messages.filter(({ _id }) => _id !== messageId);
+    });
   }
 
   public sendMessage(message: string): void {
