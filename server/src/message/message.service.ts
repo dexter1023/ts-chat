@@ -26,6 +26,13 @@ export class MessageService {
       .exec();
     return messages;
   }
+  async getMessage(id: string): Promise<Message> {
+    return await this.MessageModel
+      .findById(id)
+      .populate('user', 'email nick')
+      .lean()
+      .exec();
+  }
   async deleteMessage(id: string): Promise<any> {
     const res = await this.MessageModel
       .findByIdAndDelete(id);
